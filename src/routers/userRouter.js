@@ -81,8 +81,14 @@ router.post('/users/logout', auth, async (req, res) => {
 })
 
 // logout a user from all devices
-router.post('/users/logout/all', (req, res) => {
-  res.send('This is logout from all devices endpoint')
+router.post('/users/logout/all', auth, async (req, res) => {
+  try {
+		req.user.tokens = []
+		await req.user.save()
+		res.send(req.user)
+	} catch(e) {
+		res.status(500).send(e)
+	}
 })
 
 // upload user avatar
