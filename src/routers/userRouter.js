@@ -38,7 +38,7 @@ router.post('/users/login', async (req, res) => {
 
 // get my user
 router.get('/users/me', auth, (req, res) => {
-  res.send(req.user)
+  res.status(200).send(req.user)
 })
 
 // update my user
@@ -54,7 +54,7 @@ router.patch('/users/me', auth, async (req, res) => {
 	try {
 		updates.forEach(update => req.user[update] = req.body[update])
 		await req.user.save()
-		res.send(req.user)
+		res.status(200).send(req.user)
 	} catch(e) {
 		res.status(400).send(e)
 	}
@@ -62,8 +62,13 @@ router.patch('/users/me', auth, async (req, res) => {
 })
 
 // delete my user
-router.delete('/users/me', (req, res) => {
-  res.send('This is delete my user endpoint')
+router.delete('/users/me', auth, async (req, res) => {
+	try {
+		await req.user.remove()
+		res.status(200).send(req.user)
+	} catch(e) {
+		res.status(400).send(e)
+	}
 })
 
 // logout a user
