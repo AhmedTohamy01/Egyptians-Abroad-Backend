@@ -35,6 +35,9 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
+  avatar: {
+    type: Buffer,
+  },
 })
 
 // add virtual posts field
@@ -88,7 +91,6 @@ userSchema.methods.generateAuthToken = async function () {
   )
   user.tokens = user.tokens.concat({ token: token })
   await user.save()
-	
 }
 
 const User = mongoose.model('User', userSchema)
