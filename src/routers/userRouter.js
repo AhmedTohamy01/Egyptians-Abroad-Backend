@@ -125,8 +125,19 @@ router.delete('/users/me/avatar', auth, async (req, res) => {
 })
 
 // get a link for user avatar
-router.delete('/users/:id/avatar', (req, res) => {
-  res.send('This is get user avatar link endpoint')
+router.get('/users/:id/avatar', async (req, res) => {
+  try {
+		const user = await User.findById(req.params.id)
+
+		if (!user || !user.avatar) {
+			throw new Error('No user found or No Avatar!')
+		}
+
+		res.set('Content-Type', 'image/png')
+		res.send(user.avatar)
+	} catch(e) {
+		res.status(400).send(e)
+	}
 })
 
 module.exports = router
