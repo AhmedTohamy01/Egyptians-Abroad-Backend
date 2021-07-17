@@ -18,8 +18,13 @@ router.post('/posts/new', auth, async (req, res) => {
 })
 
 // get all posts
-router.get('/posts', (req, res) => {
-  res.send('This is get all posts endpoint')
+router.get('/posts', async (req, res) => {
+	try {
+		const posts = await Post.find({})
+		res.status(200).send(posts)
+	} catch (e) {
+		res.status(400).send(e)
+	}
 })
 
 // get my posts
