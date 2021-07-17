@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
 const auth = require('../middleware/auth')
+const upload = require('../middleware/upload')
+const sharp = require('sharp')
 
 // get all users (temp for testing)
 router.get('/users', async (req, res) => {
@@ -72,7 +74,7 @@ router.delete('/users/me', auth, async (req, res) => {
 // logout a user from one device
 router.post('/users/logout', auth, async (req, res) => {
   try {
-    req.user.tokens = req.user.tokens.filter(item => item.token !== req.token)
+    req.user.tokens = req.user.tokens.filter((item) => item.token !== req.token)
     await req.user.save()
     res.send(req.user)
   } catch (e) {
@@ -83,22 +85,43 @@ router.post('/users/logout', auth, async (req, res) => {
 // logout a user from all devices
 router.post('/users/logout/all', auth, async (req, res) => {
   try {
-		req.user.tokens = []
-		await req.user.save()
-		res.send(req.user)
-	} catch(e) {
-		res.status(500).send(e)
-	}
+    req.user.tokens = []
+    await req.user.save()
+    res.send(req.user)
+  } catch (e) {
+    res.status(500).send(e)
+  }
 })
 
 // upload user avatar
-router.post('/users/me/avatar', (req, res) => {
-  res.send('This is upload my avatar endpoint')
-})
+router.post(
+  '/users/me/avatar',
+  auth,
+  upload.single('avatar'),
+  async (req, res) => {
+    try {
+      const buffer = await sharp(req.file.buffer)
+        .png()
+        .resize({ width: 250, height: 250 })
+        .toBuffer()
+      req.user.avatar = buffer
+      await req.user.save()
+      res.send('Avatar uploaded sucessfully!')
+    } catch (e) {
+      res.status(400).send(e)
+    }
+  }
+)
 
-// detele user avatar
-router.delete('/users/me/avatar', (req, res) => {
-  res.send('This is delete my avatar endpoint')
+// delete user avatar
+router.delete('/users/me/avatar', auth, async (req, res) => {
+  try {
+    req.user.avatar = undefined
+    await req.user.save()
+    res.send('Avatar deleted sucessfully!')
+  } catch (e) {
+    res.status(400).send(e)
+  }
 })
 
 // get a link for user avatar
