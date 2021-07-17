@@ -19,7 +19,7 @@ const postSchema = new mongoose.Schema({
 
 
 // add virtual comments field 
-userSchema.virtual('comments', {
+postSchema.virtual('comments', {
   ref: 'Comment',
   localField: '_id',
   foreignField: 'parent_post',
