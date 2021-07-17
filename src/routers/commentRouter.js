@@ -20,8 +20,13 @@ router.post('/comments/:postId/new', auth, async (req, res) => {
 })
 
 // get my comments
-router.get('/comments/me', (req, res) => {
-  res.send('This is get my comments endpoint')
+router.get('/comments/me', auth, async (req, res) => {
+	try {
+		const comments = await Comment.find({owner: req.user._id})
+		res.status(200).send(comments)
+	} catch(e) {
+		res.status(400).send(e)
+	}
 })
 
 module.exports = router
