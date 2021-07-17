@@ -28,8 +28,13 @@ router.get('/posts', async (req, res) => {
 })
 
 // get my posts
-router.get('/posts/me', (req, res) => {
-  res.send('This is get my posts endpoint')
+router.get('/posts/me', auth, async (req, res) => {
+  try {
+		const posts = await Post.find({ owner: req.user._id })
+		res.status(200).send(posts)
+	} catch(e) {
+		res.status(400).send(e)
+	}
 })
 
 module.exports = router
