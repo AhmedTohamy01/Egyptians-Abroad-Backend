@@ -38,6 +38,26 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: Buffer,
   },
+  bio: {
+    type: String,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+  },
+	interested_in: {
+		type: Array,
+	},
+	topics_of_interest: {
+		type: Array,
+	}
 })
 
 // add virtual posts field
