@@ -19,7 +19,7 @@ router.post('/users/signup', async (req, res) => {
   try {
     const token = await user.generateAuthToken()
     await user.save()
-		sendWelcomeEmail(user.email, user.name)
+		// sendWelcomeEmail(user.email, user.name)
     res.status(201).send(user)
   } catch (e) {
     res.status(400).send(e)
@@ -45,7 +45,7 @@ router.get('/users/me', auth, (req, res) => {
 // update my user
 router.patch('/users/me', auth, async (req, res) => {
   const updates = Object.keys(req.body)
-  const allowedUpdates = ['name', 'email', 'password']
+  const allowedUpdates = ['name', 'email', 'password', 'avatar', 'bio', 'country', 'city', 'phone', 'interested_in', 'topics_of_interest']
   const isValidUpdates = updates.every((update) =>
     allowedUpdates.includes(update)
   )
