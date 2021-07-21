@@ -3,62 +3,67 @@ const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    trim: true,
-    unique: true,
-    lowerCase: true,
-    validator(value) {
-      if (!validator.isEmail(value)) {
-        throw new Error('Email is invalid!')
-      }
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
     },
-  },
-  password: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 7,
-  },
-  tokens: [
-    {
-      token: {
-        type: String,
-        required: true,
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
+      lowerCase: true,
+      validator(value) {
+        if (!validator.isEmail(value)) {
+          throw new Error('Email is invalid!')
+        }
       },
     },
-  ],
-  avatar: {
-    type: Buffer,
+    password: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 7,
+    },
+    tokens: [
+      {
+        token: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    avatar: {
+      type: Buffer,
+    },
+    bio: {
+      type: String,
+    },
+    country: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+    },
+    interested_in: {
+      type: Array,
+    },
+    topics_of_interest: {
+      type: Array,
+    },
   },
-  bio: {
-    type: String,
-  },
-  country: {
-    type: String,
-    required: true,
-  },
-  city: {
-    type: String,
-    required: true,
-  },
-  phone: {
-    type: String,
-  },
-	interested_in: {
-		type: Array,
-	},
-	topics_of_interest: {
-		type: Array,
-	}
-})
+  {
+    timestamps: true,
+  }
+)
 
 // add virtual posts field
 userSchema.virtual('posts', {
