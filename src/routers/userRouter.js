@@ -19,7 +19,7 @@ router.post('/users/signup', async (req, res) => {
   try {
     const token = await user.generateAuthToken()
     await user.save()
-		// sendWelcomeEmail(user.email, user.name)
+    // sendWelcomeEmail(user.email, user.name)
     res.status(201).send(user)
   } catch (e) {
     res.status(400).send(e)
@@ -42,10 +42,27 @@ router.get('/users/me', auth, (req, res) => {
   res.status(200).send(req.user)
 })
 
+// get all my user posts
+router.get('/users/me/posts', auth, async (req, res) => {
+  await req.user.populate('posts').execPopulate()
+  res.status(200).send(req.user.posts)
+})
+
 // update my user
 router.patch('/users/me', auth, async (req, res) => {
   const updates = Object.keys(req.body)
-  const allowedUpdates = ['name', 'email', 'password', 'avatar', 'bio', 'country', 'city', 'phone', 'interested_in', 'topics_of_interest']
+  const allowedUpdates = [
+    'name',
+    'email',
+    'password',
+    'avatar',
+    'bio',
+    'country',
+    'city',
+    'phone',
+    'interested_in',
+    'topics_of_interest',
+  ]
   const isValidUpdates = updates.every((update) =>
     allowedUpdates.includes(update)
   )
@@ -66,7 +83,7 @@ router.patch('/users/me', auth, async (req, res) => {
 // delete my user
 router.delete('/users/me', auth, async (req, res) => {
   try {
-		sendCancelationEmail(req.user.email, req.user.name)
+    sendCancelationEmail(req.user.email, req.user.name)
     await req.user.remove()
     res.status(200).send(req.user)
   } catch (e) {
@@ -130,17 +147,17 @@ router.delete('/users/me/avatar', auth, async (req, res) => {
 // get a link for user avatar
 router.get('/users/:id/avatar', async (req, res) => {
   try {
-		const user = await User.findById(req.params.id)
+    const user = await User.findById(req.params.id)
 
-		if (!user || !user.avatar) {
-			throw new Error('No user found or No Avatar!')
-		}
+    if (!user || !user.avatar) {
+      throw new Error('No user found or No Avatar!')
+    }
 
-		res.set('Content-Type', 'image/png')
-		res.send(user.avatar)
-	} catch(e) {
-		res.status(400).send(e)
-	}
+    res.set('Content-Type', 'image/png')
+    res.send(user.avatar)
+  } catch (e) {
+    res.status(400).send(e)
+  }
 })
 
 module.exports = router
