@@ -17,10 +17,45 @@ router.post('/posts/new', auth, async (req, res) => {
   }
 })
 
-// get all posts
-router.get('/posts', async (req, res) => {
+// get one post
+router.get('/posts/:id', auth, async (req, res) => {
   try {
-    const posts = await Post.find({})
+    const post = await Post.findById(req.params.id)
+    res.status(201).send(post)
+  } catch (e) {
+    res.status(400).send(e)
+  }
+})
+
+// get all posts without match, sort or pagination options.
+// router.get('/posts', auth, async (req, res) => {
+//   try {
+//     const posts = await Post.find({})
+//     res.status(200).send(posts)
+//   } catch (e) {
+//     res.status(400).send(e)
+//   }
+// })
+
+// get all posts WITH match, sort or pagination options.
+//
+// GET /posts?completed=true
+// GET /posts?limit=10&skip=20
+// GET /posts?sortBy=createdAt:desc
+router.get('/posts', auth, async (req, res) => {
+  const sort = {}
+
+  if (req.query.sortBy) {
+    const parts = req.query.sortBy.split(':')
+    sort[parts[0]] = parts[1] === 'desc' ? -1 : 1
+  }
+
+  try {
+    const posts = await Post.find(null, null, {
+      limit: parseInt(req.query.limit),
+      skip: parseInt(req.query.skip),
+      sort,
+    })
     res.status(200).send(posts)
   } catch (e) {
     res.status(400).send(e)
