@@ -42,6 +42,16 @@ router.get('/users/me', auth, (req, res) => {
   res.status(200).send(req.user)
 })
 
+// get Other user
+router.get('/users/:id', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    res.status(200).send(user)
+  } catch (e) {
+		res.status(400).send()
+	}
+})
+
 // get all my user posts
 // router.get('/users/me/posts', auth, async (req, res) => {
 //   await req.user.populate('posts').execPopulate()
