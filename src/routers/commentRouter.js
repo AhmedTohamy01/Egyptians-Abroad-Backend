@@ -3,7 +3,7 @@ const router = express.Router()
 const Comment = require('../models/comment')
 const auth = require('../middleware/auth')
 
-// add a comment
+// add new comment
 router.post('/comments/:postId/new', auth, async (req, res) => {
   const comment = new Comment({
     ...req.body,
@@ -14,7 +14,9 @@ router.post('/comments/:postId/new', auth, async (req, res) => {
   try {
     await comment.save()
     res.status(201).send(comment)
-  } catch (e) {}
+  } catch (e) {
+		res.status(400).send(e)
+	}
 })
 
 // get my comments
