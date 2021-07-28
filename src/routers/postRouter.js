@@ -17,16 +17,6 @@ router.post('/posts/new', auth, async (req, res) => {
   }
 })
 
-// get one post
-router.get('/posts/:id', auth, async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id)
-    res.status(201).send(post)
-  } catch (e) {
-    res.status(400).send(e)
-  }
-})
-
 // get all posts without match, sort or pagination options.
 // router.get('/posts', auth, async (req, res) => {
 //   try {
@@ -106,6 +96,16 @@ router.get('/posts/me', auth, async (req, res) => {
     res.send(req.user.posts)
   } catch (e) {
     res.status(500).send()
+  }
+})
+
+// get one post
+router.get('/posts/:id', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id)
+    res.status(201).send(post)
+  } catch (e) {
+    res.status(400).send(e)
   }
 })
 
