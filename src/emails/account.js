@@ -20,7 +20,25 @@ const sendCancelationEmail = (email, name) => {
   })
 }
 
+const sendDirectMessage = (
+  senderName,
+  senderEmail,
+  recipientName,
+  recipientEmail,
+  message
+) => {
+  sgMail.send({
+    to: recipientEmail,
+    from: 'admin@gulfschools.net',
+    subject: `You got a message from ${senderName} through EgyptiansAbroad!`,
+    text: `Hi ${recipientName}, The user ${senderName} sent you this message: ${message}. 
+			you can reply him directly by sending to his email: ${senderEmail}.	
+		`,
+  })
+}
+
 module.exports = {
   sendWelcomeEmail,
   sendCancelationEmail,
+  sendDirectMessage,
 }
