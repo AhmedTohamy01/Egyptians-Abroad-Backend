@@ -4,7 +4,11 @@ const User = require('../models/user')
 const auth = require('../middleware/auth')
 const upload = require('../middleware/upload')
 const sharp = require('sharp')
-const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
+const {
+  sendWelcomeEmail,
+  sendCancelationEmail,
+  sendDirectMessage,
+} = require('../emails/account')
 
 // get all users (temp for testing)
 router.get('/users', async (req, res) => {
@@ -48,8 +52,8 @@ router.get('/users/:id', auth, async (req, res) => {
     const user = await User.findById(req.params.id)
     res.status(200).send(user)
   } catch (e) {
-		res.status(400).send()
-	}
+    res.status(400).send()
+  }
 })
 
 // get all my user posts
@@ -165,6 +169,22 @@ router.get('/users/:id/avatar', async (req, res) => {
 
     res.set('Content-Type', 'image/png')
     res.send(user.avatar)
+  } catch (e) {
+    res.status(400).send(e)
+  }
+})
+
+// Send direct message to the user
+router.post('/users/message', auth, async (req, res) => {
+  try {
+    sendDirectMessage(
+      req.body.senderName,
+      req.body.senderEmail,
+      req.body.recipientName,
+      req.body.recipientEmail,
+      req.body.message
+    )
+    res.status(200).send('email sent sucessfully!')
   } catch (e) {
     res.status(400).send(e)
   }
