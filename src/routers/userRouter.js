@@ -56,12 +56,6 @@ router.get('/users/:id', auth, async (req, res) => {
   }
 })
 
-// get all my user posts
-// router.get('/users/me/posts', auth, async (req, res) => {
-//   await req.user.populate('posts').execPopulate()
-//   res.status(200).send(req.user.posts)
-// })
-
 // update my user
 router.patch('/users/me', auth, async (req, res) => {
   const updates = Object.keys(req.body)
