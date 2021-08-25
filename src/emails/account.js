@@ -31,9 +31,7 @@ const sendDirectMessage = (
     to: recipientEmail,
     from: 'admin@gulfschools.net',
     subject: `You got a message from ${senderName} through EgyptiansAbroad!`,
-    text: `Hi ${recipientName}, The user ${senderName} sent you this message: ${message}. 
-			you can reply him directly by sending to his email: ${senderEmail}.	
-		`,
+    text: `Hi ${recipientName}, The user ${senderName} sent you this message: ##${message}##. You can reply him/her directly by sending to his/her email: ${senderEmail}.`,
   })
 }
 
