@@ -17,13 +17,6 @@
   <strong><em>Take a look at the frontend repo here:</em></strong> https://github.com/AhmedTohamy01/Egyptians-Abroad-Frontend :octocat: :heart_eyes:
 </p>
 
-# Author
-
-👤 **Ahmed Tohamy**
-- Github: https://github.com/AhmedTohamy01
-- Linkedin: https://www.linkedin.com/in/ATohamy
-- Email: Ahmed-Tohamy@outlook.com
-
 # Show Your Support
 
 Give a ⭐️ if you like this project!
