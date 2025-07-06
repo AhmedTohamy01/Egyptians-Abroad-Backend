@@ -1,9 +1,7 @@
 
 <h1 align="center">
-  <div>  
-    <img title="EgyptianAbroad" src="https://user-images.githubusercontent.com/54721194/131196398-02262940-c858-4a91-b4c8-81f389ca8b9f.png" alt="EgyptianAbroad Logo" width="300"/>
-  </div>
-  <img title="MERN" src="https://www.mindinventory.com/blog/wp-content/uploads/2021/06/mern-stack.png" alt="MERN" width="500" />
+  
+  <img title="MERN" src="https://camo.githubusercontent.com/bec1923f57161dea0fdb4663e39f7832fc7e1ec53e206d1c9a650a5040e904dd/68747470733a2f2f692e6962622e636f2f323331795336362f6d65726e2d63726f702e706e67" alt="MERN" width="500" />
  
   <br>
   Express Backend Server for Social Network Built Using Next.JS, Styled-Components, MondoDB, Node.JS & Express.JS
